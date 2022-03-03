@@ -52,3 +52,40 @@ window.addEventListener('DOMContentLoaded', event => {
     });
 
 });
+
+const buttonForm  = document.getElementById('submitButton')
+
+buttonForm.addEventListener('click', (e)=>{
+    const name  = document.getElementById('name')
+    const email = document.getElementById('email')
+    const message = document.getElementById('message')
+    const data = 
+    {
+        name: name.value, 
+        email: email.value, 
+        message: message.value
+    }
+    send(data)
+})
+
+const send = async (data) => {
+    try {
+        const res = await fetch('https://server-meiler.herokuapp.com/mail/send', 
+            {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            })
+            const response = await res.text()
+            console.log(response)
+            const exit = document.getElementById('submitSuccessMessage')
+            console.log(exit)
+            exit.style.display="block";
+    } catch (e) {
+        console.log(e)
+        const error = document.getElementById('submitErrorMessage')
+        error.style.display="block"
+    }
+}
